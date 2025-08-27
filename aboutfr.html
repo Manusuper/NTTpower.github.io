@@ -538,6 +538,20 @@
         </div>
         <!-- Footer End -->
 
+        <script>
+  window.Microsoft = window.Microsoft || {};
+  window.Microsoft.Omnichannel = window.Microsoft.Omnichannel || {};
+  window.Microsoft.Omnichannel.LiveChatWidget = {
+    chatConfig: {
+      overrideLocale: "fr", // détecte automatiquement la langue du navigateur
+      telemetry: {
+        customFields: {
+          Language: "fr" // transmet la langue au bot
+        }
+      }
+    }
+  };
+</script>
 <script id="Microsoft_Omnichannel_LCWidget" src="https://oc-cdn-public-eur.azureedge.net/livechatwidget/scripts/LiveChatBootstrapper.js"" onerror="(function(el){el.parentNode.removeChild(el);var s=document.createElement('script');s.src='https://ocprodpubliceurgs.blob.core.windows.net/livechatwidget/scripts/LiveChatBootstrapper.js';s.setAttribute('id', 'Microsoft_Omnichannel_LCWidget');s.setAttribute('data-app-id', 'd7414245-488d-4976-b4f5-5c0c2e83ce14');s.setAttribute('data-lcw-version', 'prod');s.setAttribute('data-org-id', '3d94ebe8-c625-f011-9aed-000d3ade3866');s.setAttribute('data-org-url', 'https://m-3d94ebe8-c625-f011-9aed-000d3ade3866.eu.omnichannelengagementhub.com');document.body.appendChild(s);Language: French})(this);" data-app-id="d7414245-488d-4976-b4f5-5c0c2e83ce14" data-lcw-version="prod" data-org-id="3d94ebe8-c625-f011-9aed-000d3ade3866" data-org-url="https://m-3d94ebe8-c625-f011-9aed-000d3ade3866.eu.omnichannelengagementhub.com" async></script>       
     
         <!-- Copyright Start -->
@@ -582,5 +596,6 @@
     </body>
 
 </html>
+
 
 
