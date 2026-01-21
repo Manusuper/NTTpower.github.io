@@ -1,0 +1,642 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Electra Customer Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #f48b16;          /* MAIN BRAND COLOR */
+      --primary-soft: #ffe6cc;     /* Soft tint of the brand color */
+      --accent: #ffd43b;
+      --bg: #fdf7f1;
+      --text-dark: #1f2933;
+      --text-muted: #6b7280;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #ffe6cc, #fdf7f1 40%, #ffffff);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-text h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .brand-text h1 span:nth-child(1) {
+      color: var(--primary);
+    }
+    .brand-text h1 span:nth-child(2) {
+      color: var(--accent);
+    }
+
+    .brand-text small {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Profile on top right */
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 6px 10px 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .profile-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .profile-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), #d46f05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+      position: relative;
+    }
+
+    .profile-avatar::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #22c55e;
+      border: 2px solid white;
+    }
+
+    .profile-menu-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      box-shadow: 0 6px 0 var(--text-muted), 0 -6px 0 var(--text-muted);
+      margin-left: 2px;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .main-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      header {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .profile {
+        transform: scale(0.95);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .profile {
+        align-self: flex-end;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(226, 232, 240, 0.7);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .stat-box {
+      background: #fffaf4;
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .stat-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      background: #fffaf4;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #d46f05);
+      color: #ffffff;
+      box-shadow: 0 14px 30px rgba(244, 139, 22, 0.35);
+    }
+
+    .btn-ghost {
+      background: rgba(248, 250, 252, 0.92);
+      color: var(--text-dark);
+      border: 1px solid rgba(209, 213, 219, 0.9);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+    }
+
+    .btn span.icon {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    /* Right side – upcoming invoice & usage trend */
+    .side-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -60px -60px auto;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(244, 139, 22, 0.35), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .side-card-header {
+      margin-bottom: 12px;
+    }
+
+    .side-card-header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .side-card-header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .invoice-amount {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .invoice-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .invoice-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.07);
+      color: #15803d;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      margin-bottom: 12px;
+    }
+
+    .tiny-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, rgba(226, 232, 240, 0.5), rgba(226, 232, 240, 0.15));
+      margin: 10px 0 14px;
+    }
+
+    .mini-chart {
+      display: flex;
+      gap: 6px;
+      align-items: flex-end;
+      height: 80px;
+      margin-bottom: 8px;
+    }
+
+    .mini-bar {
+      flex: 1;
+      border-radius: 999px;
+      background: linear-gradient(to top, rgba(244, 139, 22, 0.18), rgba(244, 139, 22, 0.85));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-bar span {
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.62rem;
+      color: rgba(15, 23, 42, 0.8);
+      background: rgba(255, 255, 255, 0.85);
+      padding: 1px 4px;
+      border-radius: 999px;
+    }
+
+    .chart-caption {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chart-caption strong {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* Footer nav */
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 22px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+<div id="divicw" data-bind="3F376EBA-93B4-465B-A9BC-7DBF3134D452" data-org="" data-guid="ede7caf8-7e7c-4ec4-8e56-740a57a93928"></div><script>{3}var i={t:function(){try{var e=document.getElementById("divicw"),t=document.createElement("script");t.src="https://attachuk.imi.chat/widget/js/imichatinit.js?t="+new Date().toISOString(),e.insertAdjacentElement("afterend",t),t.addEventListener("load",function(){console.log(new Date().toISOString(),"Livechat script loaded successfully!")}),t.addEventListener("error",function(){console.log(new Date().toISOString(),"Error loading Livechat script");i.o(e)})}catch(e){console.error(e)}},o:function(e){e.insertAdjacentHTML("afterend",'<iframe id="tls_al_frm" frameborder="0" style="overflow:hidden;height:208px;width:394px;position:fixed;display:block;right:48px;bottom:12px;z-index:99999;display:none;"></iframe>');var t=document.getElementById("tls_al_frm"),n=t.contentWindow,d=n.document;d.open();d.write("<!doctype html><html><head><meta charset='utf-8'><title>Untitled Document</title><style>body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#99a0b0;font-size:14px}.popover__content{background-color:#fbfbfe;padding:1.5rem;border-radius:5px;width:300px;box-shadow:0 2px 5px 0 rgba(0,0,0,0.26);position:relative}.popover__message{font-weight:600;color:#56627c;font-size:16px}.pull-left{float:left}.clearfix{clear:both}.hdr-txt{width:218px;margin-top:3px}.para-txt a{text-decoration:none;color:#005cde}.close-btn{position:absolute;right:15px;top:15px}.close-btn a{text-decoration:none;font-weight:400;color:#56627c;font-size:16px}</style></head><body><div class='popover__content'><div class='close-btn'><a href='#' onclick='closeTLSAlert()'>X</a></div><div class='popover__message'><div class='pull-left hdr-txt'>This browser version is not supported on LiveChat.</div></div><div class='clearfix'></div><p class='para-txt'>Please update your browser to the latest version and re-open the website to access the widget.</p></div><script>function closeTLSAlert(){window.parent.postMessage({key:'close_tls_alert',value:'close_tls_alert',action:'close_tls_alert'},'*');}<\/script></body></html>");d.close();t.style.display='block';window.addEventListener('message',function(e){'close_tls_alert'===e.data.action&&i.s()})},s:function(){var e=document.getElementById('tls_al_frm');e&&e.remove()}};i.t();</script>
+
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="http://hanneche.be/Photos/electra.jpg" alt="Electra logo" />
+        </div>
+        <div class="brand-text">
+          <h1>
+            <span>Electra</span>
+            <span>Grid</span>
+          </h1>
+          <small>Customer Energy Portal</small>
+        </div>
+      </div>
+
+      <!-- Logged-in profile (top right) -->
+      <div class="profile">
+        <div class="profile-info">
+          <div class="profile-name">Raymond Goethals</div>
+         
+        </div>
+        <div class="profile-avatar" title="Logged in">
+          RG
+        </div>
+        <div class="profile-menu-dot" aria-hidden="true"></div>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Left column: overview -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Welcome back, Raymond</div>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">
+              Here’s a quick overview of your current electricity usage and billing.
+            </p>
+          </div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Account in good standing
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="stat-box">
+            <div class="stat-label">Current Month Usage</div>
+            <div class="stat-value">284 kWh</div>
+            <div class="stat-sub">Estimated total: 410 kWh</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-label">CO₂ Saved with Green Plan</div>
+            <div class="stat-value">18.4 kg</div>
+            <div class="stat-sub">+12% vs last month</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-label">Average Daily Cost</div>
+            <div class="stat-value">€2.63</div>
+            <div class="stat-sub">Based on last 7 days</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-label">Service Address</div>
+            <div class="stat-value" style="font-size: 0.92rem;">
+              Rue de l'Eglise, 32  7500 Tournai
+            </div>
+            <div class="stat-sub">Meter: ELX-873920</div>
+          </div>
+        </div>
+
+        <div class="pill-row">
+          <span class="pill">Tariff: Flexi-Save Night &amp; Day</span>
+          <span class="pill">Smart meter active</span>
+          <span class="pill">Paperless billing</span>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary">
+            <span class="icon">⚡</span>
+            View detailed usage
+          </button>
+          <button class="btn btn-ghost">
+            <span class="icon">💳</span>
+            Manage payment methods
+          </button>
+          <button class="btn btn-ghost">
+            <span class="icon">📝</span>
+            Update contact details
+          </button>
+        </div>
+      </section>
+
+      <!-- Right column: invoice & usage trend -->
+      <aside class="card side-card">
+        <div class="side-card-header">
+          <h2>Next Invoice</h2>
+          <p>Stay on top of your upcoming payment and recent trends.</p>
+        </div>
+
+        <div class="invoice-amount">€63.40</div>
+        <div class="invoice-meta">Due on 28 March 2026 • Auto-debit enabled</div>
+        <div class="invoice-status">
+          <span class="tiny-dot"></span>
+          On schedule — no action needed
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">
+          Last 6 days usage (kWh)
+        </div>
+        <div class="mini-chart" aria-hidden="true">
+          <div class="mini-bar" style="height: 32%;">
+            <span>Mo</span>
+          </div>
+          <div class="mini-bar" style="height: 45%;">
+            <span>Tu</span>
+          </div>
+          <div class="mini-bar" style="height: 52%;">
+            <span>We</span>
+          </div>
+          <div class="mini-bar" style="height: 65%;">
+            <span>Th</span>
+          </div>
+          <div class="mini-bar" style="height: 40%;">
+            <span>Fr</span>
+          </div>
+          <div class="mini-bar" style="height: 58%;">
+            <span>Sa</span>
+          </div>
+        </div>
+
+        <div class="chart-caption">
+          <span>
+            <strong>Trend:</strong> Slightly above your 30-day average
+          </span>
+          <span>
+            Tip: Run heavy appliances after 22:00 to save up to 18%.
+          </span>
+        </div>
+
+        <div class="actions" style="margin-top: 14px;">
+          <button class="btn btn-primary">
+            <span class="icon">📄</span>
+            Download last invoice (PDF)
+          </button>
+          <button class="btn btn-ghost">
+            <span class="icon">🔔</span>
+            Billing alerts
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer-nav">
+      <div>© 2026 Electra Energy Services. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Help &amp; Support</a>
+        <a href="#">Outage map</a>
+        <a href="#">Tariffs &amp; pricing</a>
+        <a href="#">Privacy</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
