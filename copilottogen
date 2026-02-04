@@ -468,41 +468,8 @@
     }
   </style>
 
- </script>
-    <script type="text/javascript" charset="utf-8">
-      (function (g, e, n, es, ys) {
-        g['_genesysJs'] = e;
-        g[e] =
-          g[e] ||
-          function () {
-            (g[e].q = g[e].q || []).push(arguments);
-          };
-        g[e].t = 1 * new Date();
-        g[e].c = es;
-        ys = document.createElement('script');
-        ys.async = 1;
-        ys.src = n;
-        ys.charset = 'utf-8';
-        document.head.appendChild(ys);
-      })(window, 'Genesys', 'https://apps.mypurecloud.de/genesys-bootstrap/genesys.min.js', {
-        environment: 'prod-euc1',
-        deploymentId: '87e6d224-e367-4629-ae72-a17de9403010',
-      });
-      Genesys('command', 'Database.set', {
-        messaging: {
-          customAttributes: {
-            FirstName: 'Raymond',
-            LastName: 'Goethals',
-            Subject: 'Inquiries',
-            OrderNumber: '1234567890',
-            Language: 'FR',
-            TelNumber: '+32496122522',
-            Email: 'mwafwana@gmail.com',
-            Origin: 'Web Portal',
-            City: 'Tournai',
-          },
-        },
-      });
+<body><iframe src="https://web.powerva.microsoft.com/environments/bb15e7dd-9300-ea2f-a5ce-134745e78e5a/bots/cra32_electraGenAdvisor/webchat?__version__=2" frameborder="0" style="width: 100%; height: 100%;"></iframe></body>
+
       function sendMessage(message) {
         Genesys(
           'command',
