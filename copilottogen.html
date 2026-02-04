@@ -648,11 +648,8 @@
             Billing alerts
           </button>
         </div>
-        <div style="width: 100%; height: 600px;">
-    https://web.powerva.microsoft.com/environments/bb15e7dd-9300-ea2f-a5ce-134745e78e5a/bots/cra32_electraGenAdvisor/webchat?__version__=2
-    </iframe>
-
-      </aside>
+        
+         </aside>
     </main>
 
     <footer class="footer-nav">
@@ -665,7 +662,89 @@
       </div>
     </footer>
   </div>
- <iframe src="https://web.powerva.microsoft.com/environments/bb15e7dd-9300-ea2f-a5ce-134745e78e5a/bots/cra32_electraGenAdvisor/webchat?__version__=2" frameborder="200" style="width: 100%; height: 100%;"></iframe>
 
 </body>
 </html>
+<!-- CHAT WIDGET FLOATING -->
+<style>
+  #chat-widget-btn {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 62px;
+    height: 62px;
+    background: linear-gradient(135deg, #f48b16, #d46f05);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+    cursor: pointer;
+    z-index: 9999;
+    transition: transform 0.2s ease;
+  }
+ 
+  #chat-widget-btn:hover {
+    transform: scale(1.08);
+  }
+ 
+  #chat-popup {
+    position: fixed;
+    bottom: 100px;
+    right: 22px;
+    width: 380px;
+    height: 520px;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.28);
+    display: none;
+    flex-direction: column;
+    z-index: 9998;
+  }
+ 
+  #chat-popup iframe {
+    flex: 1;
+    border: none;
+  }
+ 
+  #chat-header {
+    background: linear-gradient(135deg, #f48b16, #d46f05);
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+ 
+  #chat-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+</style>
+ 
+<!-- Floating Button -->
+<div id="chat-widget-btn" onclick="toggleChat()">
+  💬
+</div>
+ 
+<!-- Popup Window -->
+<div id="chat-popup">
+  <div id="chat-header">
+    Electra Virtual Assistant
+    <span id="chat-close" onclick="toggleChat()">×</span>
+  </div>
+ 
+  https://web.powerva.microsoft.com/environments/bb15e7dd-9300-ea2f-a5ce-134745e78e5a/bots/cra32_electraGenAdvisor/webchat?__version__=2
+</div>
+ 
+<script>
+  function toggleChat() {
+    const popup = document.getElementById('chat-popup');
+    popup.style.display = popup.style.display === "flex" ? "none" : "flex";
+  }
+</script>
