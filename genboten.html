@@ -527,20 +527,81 @@
       };
     </script>
 
-  <script type="text/javascript" charset="utf-8">
-  (function (g, e, n, es, ys) {
-    g['_genesysJs'] = e;
-    g[e] = g[e] || function () {
-      (g[e].q = g[e].q || []).push(arguments)
-    };
-    g[e].t = 1 * new Date();
-    g[e].c = es;
-    ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
-  })(window, 'Genesys', 'https://apps.mypurecloud.de/genesys-bootstrap/genesys.min.js', {
-    environment: 'prod-euc1',
-    deploymentId: '87e6d224-e367-4629-ae72-a17de9403010'
-  });
-</script>
+ <h1>Simple co-browse with voice example</h1>
+
+        <button type="button" id="start-cobrowse" onclick="genesysWebchat.startCobrowse()">Enter Co-browse Security Key</button>
+
+    <!-- Div with this id required to display security key form -->
+    <div id="cobrowse-security-form"></div>
+
+    <!-- Co-browse with voice uses the webchat API, so include it here -->
+    <script src="https://apps.mypurecloud.de/webchat/jsapi-v1.js" type="text/javascript"></script>
+
+    <!-- For co-browse with voice, you must load the co-browse API. Co-browse with web chat loads the co-browse API for you. -->
+    <script src="https://cobrowse.mypurecloud.de/cobrowse-jsapi-v1.js?deploymentKey=87e6d224-e367-4629-ae72-a17de9403010" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    let genesysWebchat = (function() {
+        function createCobrowseConfig(){
+
+            return {
+                // Web chat application URL. Use the correct top-level domain for your Genesys Cloud region, i.e. apps.mypurecloud.ie, apps.mypurecloud.jp, apps.mypurecloud.co.uk.
+                "webchatAppUrl": "https://apps.mypurecloud.de/webchat",
+
+                // Web chat service URL
+                "webchatServiceUrl": "https://realtime.mypurecloud.de:443",
+
+                // Numeric organization ID
+                "orgId": 1540,
+
+                // OrgGuid. Needed for co-browse with voice.
+                "orgGuid": "e9047a7d-efc1-49c2-bca2-3520c93e1179",
+
+                // Organization name
+                "orgName": "NTT Belgium",
+
+                // Log level
+                "logLevel": "DEBUG",
+
+                // Locale code
+                "locale": "en",
+
+                // CSS class applied to the security key window, but not its contents
+                "cssClass": "webchat-frame",
+
+                // Custom style applied to the security key window, but not its contents
+                "css": {
+                    "width": "100%",
+                    "height": "100%"
+                },
+
+                // Optional CSS for styling security key form
+                "contentCssUrl": "http://example.com/style.css",
+
+                // Element id where the security key form will appear.
+                "containerEl": "cobrowse-security-form",
+
+                // Set to true to display security key form. Do not include for co-browse with web chat or for PureConnect co-browse with voice.
+                "promptForSecurityKey": true
+            };
+        }
+        return {
+            startCobrowse: function() {
+                let config = createCobrowseConfig();
+
+                // Can also use callback
+                ININ.cobrowse.create(config)
+                    .then(function(result) {
+                        // Handle success
+                    })
+                    .catch(function(err) {
+                        // Handle failure
+                    });
+            }
+        }
+    })();
+    </script>
+
   
 </head>
 <body>
